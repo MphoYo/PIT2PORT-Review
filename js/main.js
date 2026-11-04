@@ -26,6 +26,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.querySelector('.nav-menu');
   const navLinks = document.querySelectorAll('.nav-link');
 
+  if (navMenu) {
+    const languageItem = document.createElement('li');
+    languageItem.className = 'language-switcher';
+    languageItem.innerHTML = `
+      <span class="language-switcher-label">Language · draft translations</span>
+      <div id="google_translate_element"></div>
+      <small class="language-switcher-note">Automatic translations; fluent review recommended.</small>
+    `;
+    navMenu.appendChild(languageItem);
+
+    window.googleTranslateElementInit = () => {
+      if (!window.google || !window.google.translate) {
+        console.error('The translation service did not initialize.');
+        return;
+      }
+
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'af,zu,fr,pt,zh-CN,ms,ta',
+        autoDisplay: false
+      }, 'google_translate_element');
+    };
+
+    const translateScript = document.createElement('script');
+    translateScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    translateScript.async = true;
+    translateScript.onerror = () => {
+      const note = languageItem.querySelector('.language-switcher-note');
+      note.textContent = 'Translation service unavailable. Please try again later.';
+      console.error('Could not load the translation service.');
+    };
+    document.head.appendChild(translateScript);
+  }
+
   if (menuToggle && navMenu) {
     const closeMenu = () => {
       menuToggle.classList.remove('active');

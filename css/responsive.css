@@ -10,6 +10,13 @@
   }
 }
 
+@media (min-width: 1400px) {
+  .header .container.nav-container {
+    max-width: 1400px;
+    padding: 0 1.5rem;
+  }
+}
+
 /* 2. Laptops & Small Desktops (1024px and under) */
 @media (max-width: 1024px) {
   :root {
@@ -170,6 +177,21 @@
   .nav-menu.active li:nth-child(6) { transition-delay: 0.35s; opacity: 1; transform: translateX(0); }
   .nav-menu.active li:nth-child(7) { transition-delay: 0.4s; opacity: 1; transform: translateX(0); }
   .nav-menu.active li:nth-child(8) { transition-delay: 0.45s; opacity: 1; transform: translateX(0); }
+  .nav-menu.active .language-switcher { transition-delay: 0.5s; opacity: 1; transform: translateX(0); }
+
+  .language-switcher {
+    width: 100%;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .language-switcher-note {
+    max-width: 240px;
+  }
+
+  #google_translate_element .goog-te-combo {
+    max-width: 100%;
+  }
 
   .nav-link {
     font-size: 1.25rem;
@@ -616,6 +638,87 @@
   }
 }
 
+@media (min-width: 1025px) and (max-width: 1399px) {
+  .header {
+    height: 68px;
+    padding: 0 20px;
+  }
+
+  .nav-container {
+    height: 100%;
+    gap: 1rem;
+  }
+
+  .logo img {
+    max-height: 48px;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-actions {
+    display: none;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 340px;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 6rem 2rem 2rem;
+    border: 0;
+    border-left: 1px solid var(--glass-border);
+    border-radius: 0;
+    background: rgba(10, 14, 23, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow-y: auto;
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.6);
+    transition: right 0.4s ease;
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-menu li {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(18px);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  }
+
+  .nav-menu.active li {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.75rem 0;
+    font-size: 1.1rem;
+  }
+
+  .nav-btn-mobile {
+    display: block !important;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .nav-btn-mobile .btn {
+    display: flex;
+    width: 100%;
+  }
+}
+
 /* ==========================================================================
    6. MOBILE STICKY BOTTOM ACTION BAR STYLING
    ========================================================================== */
@@ -678,6 +781,44 @@
 
 .sticky-bar-item:active svg {
   transform: scale(0.9);
+}
+
+.language-switcher {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+.language-switcher-note {
+  max-width: 150px;
+  color: var(--text-muted);
+  font-size: 0.65rem;
+}
+
+#google_translate_element .goog-te-gadget {
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.72rem;
+}
+
+#google_translate_element .goog-te-combo {
+  max-width: 150px;
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.goog-te-banner-frame.skiptranslate {
+  z-index: 10000;
 }
 
 .sticky-bar-item.whatsapp {
