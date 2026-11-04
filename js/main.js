@@ -27,17 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelectorAll('.nav-link');
 
   if (navMenu) {
-    const languageItem = document.createElement('li');
+    const languageItem = document.createElement('div');
     languageItem.className = 'language-switcher';
     languageItem.innerHTML = `
-      <span class="language-switcher-label">Language · draft translations</span>
+      <span class="language-switcher-label" title="Automatic draft translations; fluent review recommended.">Language (draft)</span>
       <div id="google_translate_element"></div>
       <small class="language-switcher-note">Automatic translations; fluent review recommended.</small>
     `;
-    navMenu.appendChild(languageItem);
+    navMenu.parentElement.insertBefore(languageItem, menuToggle || navMenu);
 
     window.googleTranslateElementInit = () => {
       if (!window.google || !window.google.translate) {
+        languageItem.querySelector('.language-switcher-label').textContent = 'Translations unavailable';
         console.error('The translation service did not initialize.');
         return;
       }
@@ -53,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     translateScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
     translateScript.async = true;
     translateScript.onerror = () => {
-      const note = languageItem.querySelector('.language-switcher-note');
-      note.textContent = 'Translation service unavailable. Please try again later.';
+      languageItem.querySelector('.language-switcher-label').textContent = 'Translations unavailable';
+      languageItem.querySelector('.language-switcher-note').textContent = 'Please try again later.';
       console.error('Could not load the translation service.');
     };
     document.head.appendChild(translateScript);
