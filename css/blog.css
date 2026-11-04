@@ -28,9 +28,17 @@
 .blog-cta p{color:var(--text-secondary);margin-bottom:1.25rem}
 @media (max-width:768px){
   .blog-page-hero .about-hero-content{width:100%;margin-inline:auto;text-align:center}
+  .blog-page-hero h1{width:100%;margin-inline:auto;text-align:center !important}
   .blog-page-hero .about-hero-content p{margin-inline:auto}
   .blog-section{padding:3rem 0 !important}
   .blog-grid{grid-template-columns:minmax(0,1fr)}
   .blog-card-body{text-align:center}
   .blog-meta{justify-content:center;flex-wrap:wrap}
+  .blog-listing-page .footer-brand .logo{display:inline-flex;height:auto}
+  .blog-listing-page .floating-buttons{
+    position:static !important;
+    justify-content:center;
+    flex-direction:row !important;
+    padding:1.5rem 1rem 2rem;
+  }
 }
