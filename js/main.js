@@ -30,15 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageItem = document.createElement('div');
     languageItem.className = 'language-switcher';
     languageItem.innerHTML = `
-      <span class="language-switcher-label" title="Automatic draft translations; fluent review recommended.">Language (draft)</span>
       <div id="google_translate_element"></div>
-      <small class="language-switcher-note">Automatic translations; fluent review recommended.</small>
+      <span class="language-switcher-status" role="status" aria-live="polite"></span>
     `;
     navMenu.parentElement.insertBefore(languageItem, menuToggle || navMenu);
 
     window.googleTranslateElementInit = () => {
       if (!window.google || !window.google.translate) {
-        languageItem.querySelector('.language-switcher-label').textContent = 'Translations unavailable';
+        languageItem.querySelector('.language-switcher-status').textContent = 'Language selection unavailable.';
         console.error('The translation service did not initialize.');
         return;
       }
@@ -48,14 +47,63 @@ document.addEventListener('DOMContentLoaded', () => {
         includedLanguages: 'af,zu,fr,pt,zh-CN,ms,ta',
         autoDisplay: false
       }, 'google_translate_element');
+
+      const configureLanguageSelect = () => {
+        const languageSelect = languageItem.querySelector('.goog-te-combo');
+        if (!languageSelect || languageSelect.options.length === 0) {
+          return false;
+        }
+
+        languageSelect.setAttribute('aria-label', 'Select language');
+
+        if (!Array.from(languageSelect.options).some(option => option.value === 'en')) {
+          const englishOption = document.createElement('option');
+          englishOption.value = 'en';
+          englishOption.textContent = 'English';
+          languageSelect.insertBefore(englishOption, languageSelect.firstChild);
+        }
+
+        if (languageSelect.dataset.englishResetHandler !== 'true') {
+          languageSelect.dataset.englishResetHandler = 'true';
+          languageSelect.addEventListener('change', event => {
+            if (languageSelect.value === 'en') {
+              event.stopImmediatePropagation();
+              sessionStorage.setItem('pit2port-language', 'en');
+
+              const hostname = window.location.hostname;
+              const rootDomain = hostname.split('.').slice(-2).join('.');
+              const cookieDomains = new Set([hostname, `.${hostname}`, `.${rootDomain}`]);
+              document.cookie = 'googtrans=; Max-Age=0; path=/';
+              cookieDomains.forEach(domain => {
+                if (domain && domain !== '.') {
+                  document.cookie = `googtrans=; Max-Age=0; path=/; domain=${domain}`;
+                }
+              });
+              window.location.reload();
+            } else {
+              sessionStorage.removeItem('pit2port-language');
+            }
+          }, true);
+        }
+
+        if (sessionStorage.getItem('pit2port-language') === 'en') {
+          languageSelect.value = 'en';
+        }
+        return true;
+      };
+
+      const languageSelectObserver = new MutationObserver(() => {
+        configureLanguageSelect();
+      });
+      languageSelectObserver.observe(languageItem, { childList: true, subtree: true });
+      configureLanguageSelect();
     };
 
     const translateScript = document.createElement('script');
     translateScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
     translateScript.async = true;
     translateScript.onerror = () => {
-      languageItem.querySelector('.language-switcher-label').textContent = 'Translations unavailable';
-      languageItem.querySelector('.language-switcher-note').textContent = 'Please try again later.';
+      languageItem.querySelector('.language-switcher-status').textContent = 'Language selection unavailable. Please try again later.';
       console.error('Could not load the translation service.');
     };
     document.head.appendChild(translateScript);
