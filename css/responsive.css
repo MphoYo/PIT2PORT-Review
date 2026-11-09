@@ -325,6 +325,28 @@
     margin-bottom: 0.75rem !important;
   }
 
+  .contact-page-hero .about-hero-content,
+  .services-page-hero .about-hero-content,
+  .why-choose-us-page-hero .about-hero-content,
+  .who-we-serve-page-hero .about-hero-content {
+    text-align: center;
+  }
+
+  .contact-page-hero .about-hero-content h1,
+  .services-page-hero .about-hero-content h1,
+  .why-choose-us-page-hero .about-hero-content h1,
+  .who-we-serve-page-hero .about-hero-content h1 {
+    text-align: center !important;
+  }
+
+  .contact-page-hero .about-hero-content > p,
+  .services-page-hero .about-hero-content > p,
+  .why-choose-us-page-hero .about-hero-content > p,
+  .who-we-serve-page-hero .about-hero-content > p {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
   .hero-section {
     padding: 7rem 0 4rem !important;
     min-height: auto !important;
@@ -388,10 +410,27 @@
     margin-bottom: 3rem !important;
   }
 
+  .service-detail-row,
+  .service-detail-row:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .service-detail-row > *,
+  .service-detail-visual,
+  .service-detail-visual picture {
+    width: 100%;
+    min-width: 0;
+  }
+
   .service-detail-visual img,
   .about-visual img,
   .grid-2col img {
     height: 240px !important;
+  }
+
+  .service-detail-visual img {
+    width: 100%;
+    object-fit: cover;
   }
 
   .contact-form-side,
@@ -453,6 +492,7 @@
   }
 
   .hero-section, .about-hero {
+    height: auto !important;
     min-height: auto !important;
     max-height: none !important;
     padding: 120px 20px 70px !important;
