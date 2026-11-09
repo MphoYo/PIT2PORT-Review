@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        if (entry.target.classList.contains('card-grid') || entry.target.classList.contains('stats-grid')) {
+        const revealItems = entry.target.querySelectorAll('.reveal-item');
+        if (entry.target.classList.contains('card-grid') || entry.target.classList.contains('stats-grid') || revealItems.length > 0) {
           staggerCards(entry.target);
         }
       }
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cardChildren = document.querySelectorAll('.card-premium, .trust-card, .service-card, .industry-card, .blog-card');
   cardChildren.forEach(card => {
     card.classList.add('reveal-item');
+    revealObserver.observe(card);
   });
 
   // ==========================================
